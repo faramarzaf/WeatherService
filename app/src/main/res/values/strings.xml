@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">WeatherService</string>
+    <string name="btn_search">Search</string>
+    <string name="temp">Temperature : </string>
+    <string name="humidity">Humidity : </string>
+    <string name="region_time">Region time : </string>
+    <string name="wind_speed">Wind Speed : </string>
+    <string name="status">Status : </string>
+    <string name="hint">Search here...</string>
+    <string name="sunSet">Sunset</string>
+    <string name="sunRise">Sunrise</string>
+    <string name="cityName">City</string>
+    <string name="countryName">Country</string>
+    <string name="yahoo_weather">The yahoo weather service</string>
+    <string name="tictac">tic-tac developments ©</string>
+
+
+</resources>
