@@ -115,21 +115,6 @@
                 android:textSize="@dimen/_17sdp" />
 
 
-            <TextView
-                android:id="@+id/resultSunRise"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
-                android:textColor="#cacaca"
-                android:textSize="@dimen/_17sdp" />
-
-            <TextView
-                android:id="@+id/resultSunSet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
-                android:textColor="#cacaca"
-                android:textSize="@dimen/_17sdp" />
 
             <TextView
                 android:id="@+id/resultHumidity"
@@ -155,4 +140,3 @@
     </ScrollView>
 
 </LinearLayout>
-

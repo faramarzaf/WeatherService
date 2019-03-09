@@ -1,17 +1,22 @@
 package com.google.yahooweather;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.google.yahooweather.raw.YahooWeatherModel;
+import com.google.yahooweather.models.ApixuWeatherModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -21,12 +26,11 @@ import cz.msebera.android.httpclient.Header;
 public class MainActivity extends AppCompatActivity {
 
     TextView resultTemp, resultCity, resultCountry, resultStatus, resultDate,
-            resultWindSpeed, resultSunRise, resultSunSet, resultHumidity;
+            resultWindSpeed, resultHumidity;
     EditText cityText;
 
     ImageView image_status, search_btn;
     public ProgressDialog dialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
         resultStatus = findViewById(R.id.resultStatus);
         resultDate = findViewById(R.id.resultDate);
         resultWindSpeed = findViewById(R.id.resultWindSpeed);
-        resultSunRise = findViewById(R.id.resultSunRise);
-        resultSunSet = findViewById(R.id.resultSunSet);
+
         resultHumidity = findViewById(R.id.resultHumidity);
         cityText = findViewById(R.id.cityText);
         image_status = findViewById(R.id.image_status);
@@ -76,15 +79,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void show(final String city) {
-
-        String url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22" + city + "%2C%20ir%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+        String url = "https://api.apixu.com/v1/current.json?key=c4662836cc5848bfa8784116190903&q=" + city;
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(MainActivity.this, "Something is wrong", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Data Not Found !", Toast.LENGTH_LONG).show();
                 if (city.isEmpty()) {
                     cityText.setError("Field is empty...");
+
                 }
 
             }
@@ -106,23 +109,37 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private void parse(String response) {
         Gson gson = new Gson();
-        YahooWeatherModel yahooWeatherModel = gson.fromJson(response, YahooWeatherModel.class);
-        String cityName = yahooWeatherModel.getQuery().getResults().getChannel().getLocation().getCity();
-        String countryName = yahooWeatherModel.getQuery().getResults().getChannel().getLocation().getCountry();
-        String temp = yahooWeatherModel.getQuery().getResults().getChannel().getItem().getCondition().getTemp();
-        String status = yahooWeatherModel.getQuery().getResults().getChannel().getItem().getCondition().getText();
-        String sunRise = yahooWeatherModel.getQuery().getResults().getChannel().getAstronomy().getSunrise();
-        String sunSet = yahooWeatherModel.getQuery().getResults().getChannel().getAstronomy().getSunset();
-        String humidity = yahooWeatherModel.getQuery().getResults().getChannel().getAtmosphere().getHumidity();
-        String date = yahooWeatherModel.getQuery().getResults().getChannel().getLastBuildDate();
-        String windSpeed = yahooWeatherModel.getQuery().getResults().getChannel().getWind().getSpeed();
+        ApixuWeatherModel apixuWeatherModel = gson.fromJson(response, ApixuWeatherModel.class);
+        String cityName = apixuWeatherModel.getLocation().getName();
+        String countryName = apixuWeatherModel.getLocation().getCountry();
+
+        Double tempF = apixuWeatherModel.getCurrent().getTempF();
+        String tempFahren = String.format("%.0f", tempF);
+
+        Double tempC = Double.valueOf(apixuWeatherModel.getCurrent().getTempC());
+        String tempCenti = String.format("%.0f", tempC);
+
+       /* Double tempC = (tempF - 32) * 5 / 9;
+        String tempCenti = String.format("%.0f", tempC);*/
+
+        String status = apixuWeatherModel.getCurrent().getCondition().getText();
+        Integer humidity = apixuWeatherModel.getCurrent().getHumidity();
+        String date = apixuWeatherModel.getLocation().getLocaltime();
+        Double windSpeed = apixuWeatherModel.getCurrent().getWindKph();
+
+        Integer errorMsg = apixuWeatherModel.getCurrent().getCondition().getCode();
+        if (errorMsg.equals(1006)) {
+            Toast.makeText(this, "No matching location found", Toast.LENGTH_SHORT).show();
+        }
+
 
         if (status.equals("Sunny")) {
             image_status.setImageResource(R.drawable.ic_sunny);
         }
-        if (status.equals("Mostly Sunny")) {
+        if (status.equals("Mostly sunny")) {
             image_status.setImageResource(R.drawable.ic_mostly_sunny);
         }
         if (status.equals("Snowy")) {
@@ -134,10 +151,10 @@ public class MainActivity extends AppCompatActivity {
         if (status.equals("Cloudy")) {
             image_status.setImageResource(R.drawable.ic_cloudy);
         }
-        if (status.equals("Mostly Cloudy")) {
+        if (status.equals("Mostly cloudy")) {
             image_status.setImageResource(R.drawable.ic_mostly_cloudy);
         }
-        if (status.equals("Partly Cloudy")) {
+        if (status.equals("Partly cloudy")) {
             image_status.setImageResource(R.drawable.ic_partly_cloudy);
         }
         if (status.equals("Breezy")) {
@@ -149,34 +166,30 @@ public class MainActivity extends AppCompatActivity {
         if (status.equals("Showers")) {
             image_status.setImageResource(R.drawable.ic_showers);
         }
-        if (status.equals("Mostly Clear")) {
+        if (status.equals("Mostly clear")) {
             image_status.setImageResource(R.drawable.ic_mostly_sunny);
         }
-        if (status.equals("Rain And Snow")) {
+        if (status.equals("Rain and snow")) {
             image_status.setImageResource(R.drawable.ic_snow_rain);
         }
 
-
         // temp conversion
-        int f = Integer.parseInt(temp);
+      /*  int f = Integer.parseInt(temp);
         double c = (f - 32) * 5 / 9;
-        double fahren = (c * 9) / 5 + 32;
+        double fahren = (c * 9) / 5 + 32;*/
 
-        // speed conversion
+       /* speed conversion
         int mph = Integer.parseInt(windSpeed);
         double kmh = mph * 1.609344;
         String KMH = String.format("%.2f", kmh);
-        // km/h = mph x 1.609344
+        km/h = mph x 1.609344*/
 
         resultCity.setText(cityName);
         resultCountry.setText(countryName);
-        resultTemp.setText(c + " °C / " + fahren + " °F");
+        resultTemp.setText(tempCenti +" °C / "+tempFahren + " °F");
         resultDate.setText("Region time : " + date);
-        resultSunRise.setText("Sunrise : " + sunRise);
-        resultSunSet.setText("Sunset : " + sunSet);
         resultStatus.setText(status);
         resultHumidity.setText("Humidity : " + humidity + " %");
-        resultWindSpeed.setText("Wind Speed : " + KMH + " Km/h");
-
+        resultWindSpeed.setText("Wind Speed : " + windSpeed + " Km/h");
     }
 }
