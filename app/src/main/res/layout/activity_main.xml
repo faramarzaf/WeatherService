@@ -28,7 +28,7 @@
             android:textColor="#ffffff"
             android:textColorHint="#bababa"
             android:textSize="@dimen/_16sdp"
-
+            android:inputType="text"
             />
 
         <ImageView
@@ -59,7 +59,7 @@
         android:gravity="center"
         android:text="_ _"
         android:textColor="#ffffff"
-        android:textSize="@dimen/_21sdp" />
+        android:textSize="@dimen/_18sdp" />
 
 
     <TextView
@@ -106,15 +106,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+
             <TextView
-                android:id="@+id/resultDate"
+                android:id="@+id/maxTemp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
                 android:textColor="#cacaca"
-                android:textSize="@dimen/_17sdp" />
+                android:textSize="@dimen/_15sdp" />
 
-
+            <TextView
+                android:id="@+id/minTemp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="#cacaca"
+                android:textSize="@dimen/_15sdp" />
 
             <TextView
                 android:id="@+id/resultHumidity"
@@ -122,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
                 android:textColor="#cacaca"
-                android:textSize="@dimen/_17sdp" />
+                android:textSize="@dimen/_15sdp" />
 
             <TextView
                 android:id="@+id/resultWindSpeed"
@@ -130,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
                 android:textColor="#cacaca"
-                android:textSize="@dimen/_17sdp"
+                android:textSize="@dimen/_15sdp"
 
                 />
 

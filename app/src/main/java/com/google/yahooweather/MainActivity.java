@@ -1,11 +1,6 @@
 package com.google.yahooweather;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
-import android.net.Uri;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,9 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.google.yahooweather.models.ApixuWeatherModel;
+import com.google.yahooweather.models.OpenWeatherMapModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -25,8 +19,9 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView resultTemp, resultCity, resultCountry, resultStatus, resultDate,
-            resultWindSpeed, resultHumidity;
+    TextView resultTemp, resultCity, resultCountry, resultStatus,
+            resultWindSpeed, resultHumidity, maxTemp,minTemp;
+
     EditText cityText;
 
     ImageView image_status, search_btn;
@@ -68,18 +63,18 @@ public class MainActivity extends AppCompatActivity {
         resultCity = findViewById(R.id.resultCity);
         resultCountry = findViewById(R.id.resultCountry);
         resultStatus = findViewById(R.id.resultStatus);
-        resultDate = findViewById(R.id.resultDate);
-        resultWindSpeed = findViewById(R.id.resultWindSpeed);
 
+        resultWindSpeed = findViewById(R.id.resultWindSpeed);
         resultHumidity = findViewById(R.id.resultHumidity);
         cityText = findViewById(R.id.cityText);
         image_status = findViewById(R.id.image_status);
         search_btn = findViewById(R.id.search_btn);
+        maxTemp = findViewById(R.id.maxTemp);
+        minTemp = findViewById(R.id.minTemp);
     }
 
-
     private void show(final String city) {
-        String url = "https://api.apixu.com/v1/current.json?key=c4662836cc5848bfa8784116190903&q=" + city;
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=a5f06f7985166354304befe85a386554";
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new TextHttpResponseHandler() {
             @Override
@@ -87,9 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Data Not Found !", Toast.LENGTH_LONG).show();
                 if (city.isEmpty()) {
                     cityText.setError("Field is empty...");
-
                 }
-
             }
 
             @Override
@@ -112,29 +105,47 @@ public class MainActivity extends AppCompatActivity {
 
     private void parse(String response) {
         Gson gson = new Gson();
-        ApixuWeatherModel apixuWeatherModel = gson.fromJson(response, ApixuWeatherModel.class);
-        String cityName = apixuWeatherModel.getLocation().getName();
-        String countryName = apixuWeatherModel.getLocation().getCountry();
+        OpenWeatherMapModel openWeatherMapModel = gson.fromJson(response, OpenWeatherMapModel.class);
+        String cityName = openWeatherMapModel.getName();
+        String countryName = openWeatherMapModel.getSys().getCountry();
 
-        Double tempF = apixuWeatherModel.getCurrent().getTempF();
-        String tempFahren = String.format("%.0f", tempF);
+        Double tempK = openWeatherMapModel.getMain().getTemp();
+        Double tempCenti = (tempK) - 273.15;
+        String tempCenti2 = String.format("%.0f", tempCenti);
 
-        Double tempC = Double.valueOf(apixuWeatherModel.getCurrent().getTempC());
-        String tempCenti = String.format("%.0f", tempC);
+        Double tempFahren = (tempCenti * 9) / 5 + 32;
+        String tempFahren2 = String.format("%.0f", tempFahren);
 
-       /* Double tempC = (tempF - 32) * 5 / 9;
-        String tempCenti = String.format("%.0f", tempC);*/
+        Double tempMax = openWeatherMapModel.getMain().getTempMax();
+        Double tempMin = openWeatherMapModel.getMain().getTempMin();
+        Double tempCentiMax = (tempMax) - 273.15;
+        Double tempCentiMin = (tempMin) - 273.15;
+        String tempCentiMax2 = String.format("%.0f", tempCentiMax);
+        String tempCentiMin2 = String.format("%.0f", tempCentiMin);
 
-        String status = apixuWeatherModel.getCurrent().getCondition().getText();
-        Integer humidity = apixuWeatherModel.getCurrent().getHumidity();
-        String date = apixuWeatherModel.getLocation().getLocaltime();
-        Double windSpeed = apixuWeatherModel.getCurrent().getWindKph();
 
-        Integer errorMsg = apixuWeatherModel.getCurrent().getCondition().getCode();
-        if (errorMsg.equals(1006)) {
+        Double tempFahrenMax = (tempCentiMax * 9) / 5 + 32;
+        Double tempFahrenMin = (tempCentiMin * 9) / 5 + 32;
+
+        String tempFahrenMax2 = String.format("%.0f", tempFahrenMax);
+        String tempFahrenMin2 = String.format("%.0f", tempFahrenMin);
+
+        String status = openWeatherMapModel.getWeather().get(0).getMain();
+        Integer humidity = openWeatherMapModel.getMain().getHumidity();
+
+        Double windSpeed = openWeatherMapModel.getWind().getSpeed();
+        Double windKmh = (windSpeed) / 3.6;
+        String windKmh2 = String.format("%.2f", windKmh);
+
+        Integer errorMsg = openWeatherMapModel.getCod();
+        if (!errorMsg.equals(200)) {
             Toast.makeText(this, "No matching location found", Toast.LENGTH_SHORT).show();
         }
 
+        // String tempFahren = String.format("%.0f", tempF);
+        //[°C] = [K] − ۲۷۳.۱۵
+        // 1m/s = 3.6*km/h
+        // 1km/h = 1m/s / 3.6
 
         if (status.equals("Sunny")) {
             image_status.setImageResource(R.drawable.ic_sunny);
@@ -142,13 +153,13 @@ public class MainActivity extends AppCompatActivity {
         if (status.equals("Mostly sunny")) {
             image_status.setImageResource(R.drawable.ic_mostly_sunny);
         }
-        if (status.equals("Snowy")) {
+        if (status.equals("Snow")) {
             image_status.setImageResource(R.drawable.ic_snowy);
         }
-        if (status.equals("Rainy")) {
+        if (status.equals("Rain")) {
             image_status.setImageResource(R.drawable.ic_rainy);
         }
-        if (status.equals("Cloudy")) {
+        if (status.equals("Clouds")) {
             image_status.setImageResource(R.drawable.ic_cloudy);
         }
         if (status.equals("Mostly cloudy")) {
@@ -172,6 +183,12 @@ public class MainActivity extends AppCompatActivity {
         if (status.equals("Rain and snow")) {
             image_status.setImageResource(R.drawable.ic_snow_rain);
         }
+        if (status.equals("Mist")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Haze")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
 
         // temp conversion
       /*  int f = Integer.parseInt(temp);
@@ -186,10 +203,11 @@ public class MainActivity extends AppCompatActivity {
 
         resultCity.setText(cityName);
         resultCountry.setText(countryName);
-        resultTemp.setText(tempCenti +" °C / "+tempFahren + " °F");
-        resultDate.setText("Region time : " + date);
+        resultTemp.setText(tempCenti2 + " °C / " + tempFahren2 + " °F");
         resultStatus.setText(status);
         resultHumidity.setText("Humidity : " + humidity + " %");
-        resultWindSpeed.setText("Wind Speed : " + windSpeed + " Km/h");
+        resultWindSpeed.setText("Wind Speed : " + windKmh2 + " Km/h   "+windSpeed +"m/s");
+        maxTemp.setText("Max temperature : "+tempCentiMax2+ " °C / "+tempFahrenMax2+" °F" );
+        minTemp.setText("Min temperature : "+tempCentiMin2+ " °C / "+tempFahrenMin2+" °F" );
     }
 }
