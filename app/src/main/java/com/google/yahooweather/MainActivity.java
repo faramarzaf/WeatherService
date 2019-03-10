@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         client.get(url, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-             //Toast.makeText(MainActivity.this, "Data Not Found !", Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, "Data Not Found !", Toast.LENGTH_LONG).show();
                 if (city.isEmpty()) {
                     cityText.setError("Field is empty...");
                 }
@@ -168,47 +168,21 @@ public class MainActivity extends AppCompatActivity {
         String KMH = String.format("%.2f", kmh);
         km/h = mph x 1.609344*/
 
-
         if (status.equals("Sunny")) {
             image_status.setImageResource(R.drawable.ic_sunny);
         }
-        if (status.equals("Mostly sunny")) {
-            image_status.setImageResource(R.drawable.ic_mostly_sunny);
-        }
-        if (status.equals("Snow")) {
-            image_status.setImageResource(R.drawable.ic_snowy);
-        }
-        if (status.equals("Rain")) {
-            image_status.setImageResource(R.drawable.ic_rainy);
-        }
+
         if (status.equals("Cloudy")) {
             image_status.setImageResource(R.drawable.ic_cloudy);
         }
-        if (status.equals("Mostly cloudy")) {
-            image_status.setImageResource(R.drawable.ic_mostly_cloudy);
-        }
+
         if (status.equals("Partly cloudy")) {
             image_status.setImageResource(R.drawable.ic_partly_cloudy);
-        }
-        if (status.equals("Breezy")) {
-            image_status.setImageResource(R.drawable.ic_breezy);
         }
         if (status.equals("Clear")) {
             image_status.setImageResource(R.drawable.ic_clear);
         }
-        if (status.equals("Showers")) {
-            image_status.setImageResource(R.drawable.ic_showers);
-        }
-        if (status.equals("Mostly clear")) {
-            image_status.setImageResource(R.drawable.ic_mostly_sunny);
-        }
-        if (status.equals("Rain and snow")) {
-            image_status.setImageResource(R.drawable.ic_snow_rain);
-        }
         if (status.equals("Mist")) {
-            image_status.setImageResource(R.drawable.mist);
-        }
-        if (status.equals("Haze")) {
             image_status.setImageResource(R.drawable.mist);
         }
         if (status.equals("Overcast")) {
@@ -236,6 +210,108 @@ public class MainActivity extends AppCompatActivity {
             image_status.setImageResource(R.drawable.mist);
         }
         if (status.equals("Fog")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Freezing fog")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Patchy light drizzle")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Light drizzle")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Freezing drizzle")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Heavy freezing drizzle")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Patchy light rain")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Light rain")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate rain at times")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate rain")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Heavy rain at times")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Heavy rain")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Light freezing rain")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate or heavy freezing rain")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate or heavy sleet")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Patchy light snow")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Light snow")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Patchy moderate snow")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate snow")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Patchy heavy snow")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Heavy snow")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Ice pellets")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate or heavy rain shower")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Torrential rain shower")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Light sleet showers")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate or heavy sleet showers")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Light snow showers")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate or heavy snow showers")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Light showers of ice pellets")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate or heavy showers of ice pellets")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Patchy light rain with thunder")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate or heavy rain with thunder")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Patchy light snow with thunder")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Fog")) {
+            image_status.setImageResource(R.drawable.mist);
+        }
+        if (status.equals("Moderate or heavy snow with thunder")) {
             image_status.setImageResource(R.drawable.mist);
         }
 
