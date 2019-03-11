@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void showNewData(final String city) {
@@ -151,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
         resultHumidity.setText("Humidity : " + humidity2 + " %");
         resultWindSpeed.setText("Wind Speed : " + windKmh + " kmh   " + windMph + " mph");
 
-
         // String tempFahren = String.format("%.0f", tempF);
         //[°C] = [K] − ۲۷۳.۱۵
         // 1m/s = 3.6*km/h
@@ -171,11 +169,9 @@ public class MainActivity extends AppCompatActivity {
         if (status.equals("Sunny")) {
             image_status.setImageResource(R.drawable.ic_sunny);
         }
-
         if (status.equals("Cloudy")) {
             image_status.setImageResource(R.drawable.ic_cloudy);
         }
-
         if (status.equals("Partly cloudy")) {
             image_status.setImageResource(R.drawable.ic_partly_cloudy);
         }
@@ -186,133 +182,130 @@ public class MainActivity extends AppCompatActivity {
             image_status.setImageResource(R.drawable.mist);
         }
         if (status.equals("Overcast")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.ic_cloudy);
         }
         if (status.equals("Patchy rain possible")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.ic_rainy);
         }
         if (status.equals("Patchy snow possible")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.ic_snowy);
         }
         if (status.equals("Patchy sleet possible")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.sleet);
         }
         if (status.equals("Patchy freezing drizzle possible")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.freezingdrizzle);
         }
         if (status.equals("Thundery outbreaks possible")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.thunderoutbreaks);
         }
         if (status.equals("Blowing snow")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.blowingsnow);
         }
         if (status.equals("Blizzard")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.blizzard);
         }
         if (status.equals("Fog")) {
             image_status.setImageResource(R.drawable.mist);
         }
         if (status.equals("Freezing fog")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.freezingfog);
         }
         if (status.equals("Patchy light drizzle")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.freezingdrizzle);
         }
         if (status.equals("Light drizzle")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.freezingdrizzle);
         }
         if (status.equals("Freezing drizzle")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.freezingdrizzle);
         }
         if (status.equals("Heavy freezing drizzle")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.ic_showers);
         }
         if (status.equals("Patchy light rain")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.lightrain);
         }
         if (status.equals("Light rain")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.lightrain);
         }
         if (status.equals("Moderate rain at times")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.lightrain);
         }
         if (status.equals("Moderate rain")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.ic_rainy);
         }
         if (status.equals("Heavy rain at times")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavyrain);
         }
         if (status.equals("Heavy rain")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavyrain);
         }
         if (status.equals("Light freezing rain")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.ic_rainy);
         }
         if (status.equals("Moderate or heavy freezing rain")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavyrain);
         }
         if (status.equals("Moderate or heavy sleet")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavyrain);
         }
         if (status.equals("Patchy light snow")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.lightsnow);
         }
         if (status.equals("Light snow")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.lightsnow);
         }
         if (status.equals("Patchy moderate snow")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.moderatesnow);
         }
         if (status.equals("Moderate snow")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.moderatesnow);
         }
         if (status.equals("Patchy heavy snow")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavysnow);
         }
         if (status.equals("Heavy snow")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavysnow);
         }
         if (status.equals("Ice pellets")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.icepellets);
         }
         if (status.equals("Moderate or heavy rain shower")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavyrain);
         }
         if (status.equals("Torrential rain shower")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavyrain);
         }
         if (status.equals("Light sleet showers")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.lightrain);
         }
         if (status.equals("Moderate or heavy sleet showers")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavyrain);
         }
         if (status.equals("Light snow showers")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.lightsnow);
         }
         if (status.equals("Moderate or heavy snow showers")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavysnow);
         }
         if (status.equals("Light showers of ice pellets")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.icepellets);
         }
         if (status.equals("Moderate or heavy showers of ice pellets")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavyice);
         }
         if (status.equals("Patchy light rain with thunder")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.rainwiththunder);
         }
         if (status.equals("Moderate or heavy rain with thunder")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavyrainthunder);
         }
         if (status.equals("Patchy light snow with thunder")) {
-            image_status.setImageResource(R.drawable.mist);
-        }
-        if (status.equals("Fog")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.snowwiththunder);
         }
         if (status.equals("Moderate or heavy snow with thunder")) {
-            image_status.setImageResource(R.drawable.mist);
+            image_status.setImageResource(R.drawable.heavysnowwiththunder);
         }
 
     }
