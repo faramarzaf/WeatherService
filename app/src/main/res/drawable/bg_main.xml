@@ -4,8 +4,8 @@
     >
 
     <gradient
-        android:startColor="#213389"
-        android:endColor="#9938ab"
+        android:startColor="#6695e7"
+        android:endColor="#78a0e7"
         android:angle="270"
         />
 

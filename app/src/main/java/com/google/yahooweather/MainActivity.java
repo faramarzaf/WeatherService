@@ -1,14 +1,18 @@
 package com.google.yahooweather;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.yahooweather.models.ApixuWeatherModel;
 import com.google.yahooweather.models.OpenWeatherMapModel;
@@ -24,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
             resultWindSpeed, resultHumidity, maxTemp, minTemp, regionDate;
 
     EditText cityText;
-
-    ImageView image_status, search_btn;
+    View line;
+    ImageView image_status, search_btn, img_humidity, img_windSpeed, img_maxTemp, img_minTemp;
     public ProgressDialog dialog;
 
     @Override
@@ -93,8 +97,12 @@ public class MainActivity extends AppCompatActivity {
         String maxTempF2 = String.format("%.0f", maxTempF);
         String minTempF2 = String.format("%.0f", minTempF);
 
-        maxTemp.setText("Max temperature : " + maxTempC2 + " °C / " + maxTempF2 + " °F");
-        minTemp.setText("Min temperature : " + minTempC2 + " °C / " + minTempF2 + " °F");
+        maxTemp.setText(maxTempC2 + " °C / " + maxTempF2 + " °F");
+        minTemp.setText(minTempC2 + " °C / " + minTempF2 + " °F");
+        maxTemp.setTextColor(Color.RED);
+        minTemp.setTextColor(Color.BLUE);
+
+
     }
 
     private void showData(final String city) {
@@ -135,8 +143,9 @@ public class MainActivity extends AppCompatActivity {
         Double tempC = apixuWeatherModel.getCurrent().getTempC();
         Double tempF = apixuWeatherModel.getCurrent().getTempF();
         Double humidity = apixuWeatherModel.getCurrent().getHumidity();
+
         Double windKmh = apixuWeatherModel.getCurrent().getWindKph();
-        Double windMph = apixuWeatherModel.getCurrent().getWindMph();
+        //  Double windMph = apixuWeatherModel.getCurrent().getWindMph();
 
         String tempFahren = String.format("%.0f", tempF);
         String tempCenti = String.format("%.0f", tempC);
@@ -147,9 +156,13 @@ public class MainActivity extends AppCompatActivity {
         resultCountry.setText(countryName);
         resultCity.setText(cityName);
         resultTemp.setText(tempCenti + " °C / " + tempFahren + " °F");
-        resultHumidity.setText("Humidity : " + humidity2 + " %");
-        resultWindSpeed.setText("Wind Speed : " + windKmh + " kmh   " + windMph + " mph");
-
+        resultHumidity.setText(humidity2 + " %");
+        resultWindSpeed.setText(+windKmh + " kmh   ");
+        img_humidity.setVisibility(View.VISIBLE);
+        img_windSpeed.setVisibility(View.VISIBLE);
+        img_maxTemp.setVisibility(View.VISIBLE);
+        img_minTemp.setVisibility(View.VISIBLE);
+        line.setVisibility(View.VISIBLE);
         // String tempFahren = String.format("%.0f", tempF);
         //[°C] = [K] − ۲۷۳.۱۵
         // 1m/s = 3.6*km/h
@@ -177,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (status.equals("Clear")) {
             image_status.setImageResource(R.drawable.ic_clear);
+
         }
         if (status.equals("Mist")) {
             image_status.setImageResource(R.drawable.mist);
@@ -329,6 +343,14 @@ public class MainActivity extends AppCompatActivity {
         search_btn = findViewById(R.id.search_btn);
         maxTemp = findViewById(R.id.maxTemp);
         minTemp = findViewById(R.id.minTemp);
+
+        line = findViewById(R.id.line);
+
+        img_humidity = findViewById(R.id.img_humidity);
+        img_windSpeed = findViewById(R.id.img_windSpeed);
+        img_maxTemp = findViewById(R.id.img_maxTemp);
+        img_minTemp = findViewById(R.id.img_minTemp);
+
     }
 
 }
