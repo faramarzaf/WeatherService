@@ -79,7 +79,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="#ffffff"
-        android:textSize="@dimen/_25sdp" />
+        android:textSize="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        />
 
 
     <LinearLayout
@@ -175,7 +177,7 @@
     <View
         android:layout_width="@dimen/_250sdp"
         android:layout_height="@dimen/_1sdp"
-        android:background="#c6c6c6"
+        android:background="#e1e1e1"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_5sdp"
         android:visibility="invisible"
