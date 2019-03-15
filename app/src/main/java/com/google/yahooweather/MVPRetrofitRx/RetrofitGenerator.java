@@ -15,7 +15,6 @@ public class RetrofitGenerator {
 
 
         String BASE_URL = "https://api.apixu.com/";
-        String BASE_URL2 = "https://openweathermap.org/";
 
         HttpLoggingInterceptor loggerInterceptorBody = new HttpLoggingInterceptor();
         loggerInterceptorBody.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -25,6 +24,25 @@ public class RetrofitGenerator {
 
         OkHttpClient client = (new OkHttpClient.Builder()).addInterceptor(loggerInterceptorBody).addInterceptor(loggerInterceptorHeader).readTimeout(30L, TimeUnit.SECONDS).connectTimeout(30L, TimeUnit.SECONDS).build();
         Retrofit retrofit = (new Retrofit.Builder()).baseUrl(BASE_URL).client(client).
+                addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()
+                ).build();
+
+        return retrofit.create(serviceClass);
+    }
+
+    public static <S> S createService2(Class<S> serviceClass) {
+
+        String BASE_URL2 = "https://openweathermap.org/";
+
+        HttpLoggingInterceptor loggerInterceptorBody = new HttpLoggingInterceptor();
+        loggerInterceptorBody.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        HttpLoggingInterceptor loggerInterceptorHeader = new HttpLoggingInterceptor();
+        loggerInterceptorHeader.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+
+        OkHttpClient client = (new OkHttpClient.Builder()).addInterceptor(loggerInterceptorBody).addInterceptor(loggerInterceptorHeader).readTimeout(30L, TimeUnit.SECONDS).connectTimeout(30L, TimeUnit.SECONDS).build();
+        Retrofit retrofit = (new Retrofit.Builder()).baseUrl(BASE_URL2).client(client).
                 addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()
                 ).build();

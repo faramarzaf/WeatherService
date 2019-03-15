@@ -25,7 +25,14 @@ public class Presenter implements Contract.Presenter {
     }
 
     @Override
-    public void cityFound(ApixuWeatherModel apixuWeatherModel, OpenWeatherMapModel openWeatherMapModel) {
-        view.cityFound(apixuWeatherModel,openWeatherMapModel);
+    public void minmaxTemp(OpenWeatherMapModel openWeatherMapModel) {
+
     }
+
+    @Override
+    public void mainData(ApixuWeatherModel apixuWeatherModel) {
+
+    }
+
+
 }

@@ -7,13 +7,15 @@ public interface Contract {
 
     interface View{
         void failed();
-        void cityFound(ApixuWeatherModel apixuWeatherModel, OpenWeatherMapModel openWeatherMapModel);
+        void minmaxTemp(OpenWeatherMapModel openWeatherMapModel);
+        void mainData(ApixuWeatherModel apixuWeatherModel);
     }
     interface Presenter{
         void attachView(View view);
         void failed();
         void search(String word);
-        void cityFound(ApixuWeatherModel apixuWeatherModel, OpenWeatherMapModel openWeatherMapModel);
+        void minmaxTemp(OpenWeatherMapModel openWeatherMapModel);
+        void mainData(ApixuWeatherModel apixuWeatherModel);
 
     }
 
