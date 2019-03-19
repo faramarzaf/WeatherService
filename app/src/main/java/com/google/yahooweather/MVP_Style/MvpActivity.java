@@ -1,83 +1,57 @@
-package com.google.yahooweather;
+package com.google.yahooweather.MVP_Style;
 
-import android.app.ProgressDialog;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
+import com.google.yahooweather.R;
 import com.google.yahooweather.models.ApixuWeatherModel;
 import com.google.yahooweather.models.OpenWeatherMapModel;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.TextHttpResponseHandler;
-
-import cz.msebera.android.httpclient.Header;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MvpActivity extends AppCompatActivity implements Contract.View {
+    Contract.Presenter presenter = new Presenter();
+
 
     TextView resultTemp, resultCity, resultCountry, resultStatus,
             resultWindSpeed, resultHumidity, maxTemp, minTemp, regionDate;
-
     EditText cityText;
-    View line;
     ImageView image_status, search_btn, img_humidity, img_windSpeed, img_maxTemp, img_minTemp;
-    public ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_mvp);
+        presenter.attachView(this);
+        bind();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-        bind();
-        readyDialog();
-
         search_btn.setOnClickListener(v -> {
             if (cityText.length() == 0) {
                 cityText.setError("Field is empty...");
             } else {
-                dialog.show();
-                showData(cityText.getText().toString());
-                showNewData(cityText.getText().toString());
+                presenter.search(cityText.getText().toString());
+                presenter.search2(cityText.getText().toString());
             }
         });
 
-    }
-
-    private void showNewData(final String city) {
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=a5f06f7985166354304befe85a386554";
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                //Toast.makeText(MainActivity.this, "Data Not Found !", Toast.LENGTH_LONG).show();
-                if (city.isEmpty()) {
-                    cityText.setError("Field is empty...");
-                }
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                dialog.show();
-                parseNewData(responseString);
-            }
-        });
 
     }
 
-    private void parseNewData(String response) {
-        Gson gson = new Gson();
-        OpenWeatherMapModel openWeatherMapModel = gson.fromJson(response, OpenWeatherMapModel.class);
+
+    @Override
+    public void failed() {
+        Toast.makeText(this, "Not found!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void MinMaxTempReceived(OpenWeatherMapModel openWeatherMapModel) {
 
         Double maxTempKlv = openWeatherMapModel.getMain().getTempMax();
         Double minTempKlv = openWeatherMapModel.getMain().getTempMin();
@@ -99,39 +73,10 @@ public class MainActivity extends AppCompatActivity {
         maxTemp.setTextColor(Color.RED);
         minTemp.setTextColor(Color.BLUE);
 
-
     }
 
-    private void showData(final String city) {
-        String url = "https://api.apixu.com/v1/current.json?key=c4662836cc5848bfa8784116190903&q=" + city;
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(MainActivity.this, "Data Not Found !", Toast.LENGTH_LONG).show();
-                if (city.isEmpty()) {
-                    cityText.setError("Field is empty...");
-                }
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                dialog.show();
-                parseData(responseString);
-            }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                dialog.dismiss();
-            }
-        });
-
-    }
-
-    private void parseData(String response) {
-        Gson gson = new Gson();
-        ApixuWeatherModel apixuWeatherModel = gson.fromJson(response, ApixuWeatherModel.class);
+    @Override
+    public void MainDataReceived(ApixuWeatherModel apixuWeatherModel) {
         String localTime = apixuWeatherModel.getLocation().getLocaltime();
         String status = apixuWeatherModel.getCurrent().getCondition().getText();
         String countryName = apixuWeatherModel.getLocation().getCountry();
@@ -155,26 +100,11 @@ public class MainActivity extends AppCompatActivity {
         resultTemp.setText(tempCenti + " °C / " + tempFahren + " °F");
         resultHumidity.setText(humidity2 + " %");
         resultWindSpeed.setText(+windKmh + " kmh   ");
+
         img_humidity.setVisibility(View.VISIBLE);
         img_windSpeed.setVisibility(View.VISIBLE);
         img_maxTemp.setVisibility(View.VISIBLE);
         img_minTemp.setVisibility(View.VISIBLE);
-        line.setVisibility(View.VISIBLE);
-        // String tempFahren = String.format("%.0f", tempF);
-        //[°C] = [K] − ۲۷۳.۱۵
-        // 1m/s = 3.6*km/h
-        // 1km/h = 1m/s / 3.6
-
-        // temp conversion
-      /*  int f = Integer.parseInt(temp);
-        double c = (f - 32) * 5 / 9;
-        double fahren = (c * 9) / 5 + 32;*/
-
-       /* speed conversion
-        int mph = Integer.parseInt(windSpeed);
-        double kmh = mph * 1.609344;
-        String KMH = String.format("%.2f", kmh);
-        km/h = mph x 1.609344*/
 
         if (status.equals("Sunny")) {
             image_status.setImageResource(R.drawable.ic_sunny);
@@ -187,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if (status.equals("Clear")) {
             image_status.setImageResource(R.drawable.ic_clear);
-
         }
         if (status.equals("Mist")) {
             image_status.setImageResource(R.drawable.mist);
@@ -321,13 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void readyDialog() {
-        dialog = new ProgressDialog(this);
-        dialog.setTitle("Loading!");
-        dialog.setMessage("Please wait...");
-    }
-
-    void bind() {
+    private void bind() {
         resultTemp = findViewById(R.id.resultTemp);
         resultCity = findViewById(R.id.resultCity);
         resultCountry = findViewById(R.id.resultCountry);
@@ -340,14 +263,10 @@ public class MainActivity extends AppCompatActivity {
         search_btn = findViewById(R.id.search_btn);
         maxTemp = findViewById(R.id.maxTemp);
         minTemp = findViewById(R.id.minTemp);
-
-        line = findViewById(R.id.line);
-
         img_humidity = findViewById(R.id.img_humidity);
         img_windSpeed = findViewById(R.id.img_windSpeed);
         img_maxTemp = findViewById(R.id.img_maxTemp);
         img_minTemp = findViewById(R.id.img_minTemp);
-
     }
 
 }
