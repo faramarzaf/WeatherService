@@ -3,6 +3,8 @@ package com.google.yahooweather;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     View line;
     ImageView image_status, search_btn, img_humidity, img_windSpeed, img_maxTemp, img_minTemp;
     public ProgressDialog dialog;
+    SwipeRefreshLayout swipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +44,11 @@ public class MainActivity extends AppCompatActivity {
         }
         bind();
         readyDialog();
-
+        swipeRefreshOff();
         search_btn.setOnClickListener(v -> {
             if (cityText.length() == 0) {
                 cityText.setError("Field is empty...");
+                swipeRefreshOff();
             } else {
                 dialog.show();
                 showData(cityText.getText().toString());
@@ -54,10 +58,35 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    void swipeRefreshFun() {
+        swipeRefresh.setColorSchemeColors(Color.RED, Color.BLUE, Color.rgb(255, 191, 0), Color.rgb(61, 182, 24));
+        swipeRefresh.setOnRefreshListener(() -> {
+            swipeRefresh.setRefreshing(true);
+            new Handler().postDelayed(() -> {
+                swipeRefresh.setRefreshing(false);
+                Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+            }, 4400);
+        });
+
+    }
+
+    void swipeRefreshOff() {
+        swipeRefresh.setColorSchemeColors(Color.RED, Color.BLUE, Color.rgb(255, 191, 0), Color.rgb(61, 182, 24));
+        swipeRefresh.setOnRefreshListener(() -> {
+            swipeRefresh.setRefreshing(true);
+            new Handler().postDelayed(() -> {
+                swipeRefresh.setRefreshing(false);
+
+            }, 0);
+        });
+    }
+
+
     private void showNewData(final String city) {
         String url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=a5f06f7985166354304befe85a386554";
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new TextHttpResponseHandler() {
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 //Toast.makeText(MainActivity.this, "Data Not Found !", Toast.LENGTH_LONG).show();
@@ -68,8 +97,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                swipeRefreshFun();
+
                 dialog.show();
                 parseNewData(responseString);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                dialog.dismiss();
             }
         });
 
@@ -116,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                swipeRefreshFun();
+
                 dialog.show();
                 parseData(responseString);
             }
@@ -347,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
         img_windSpeed = findViewById(R.id.img_windSpeed);
         img_maxTemp = findViewById(R.id.img_maxTemp);
         img_minTemp = findViewById(R.id.img_minTemp);
-
+        swipeRefresh = findViewById(R.id.swipeRefresh);
     }
 
 }
