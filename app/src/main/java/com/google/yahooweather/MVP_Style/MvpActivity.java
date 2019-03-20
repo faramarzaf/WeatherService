@@ -1,5 +1,6 @@
 package com.google.yahooweather.MVP_Style;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,12 +23,16 @@ public class MvpActivity extends AppCompatActivity implements Contract.View {
             resultWindSpeed, resultHumidity, maxTemp, minTemp, regionDate;
     EditText cityText;
     ImageView image_status, search_btn, img_humidity, img_windSpeed, img_maxTemp, img_minTemp;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mvp);
         presenter.attachView(this);
+        dialog = new ProgressDialog(this);
+        dialog.setTitle("Loading");
+        dialog.setMessage("Please wait to load");
         bind();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -248,6 +253,14 @@ public class MvpActivity extends AppCompatActivity implements Contract.View {
             image_status.setImageResource(R.drawable.heavysnowwiththunder);
         }
 
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        if (show)
+            dialog.show();
+        else
+            dialog.dismiss();
     }
 
     private void bind() {

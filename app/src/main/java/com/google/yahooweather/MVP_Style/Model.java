@@ -22,6 +22,13 @@ public class Model implements Contract.Model {
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=a5f06f7985166354304befe85a386554";
         client.get(url, new TextHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                presenter.isOnLoading(true);
+            }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 presenter.failed();
@@ -30,6 +37,12 @@ public class Model implements Contract.Model {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 parseMinMax(responseString);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                presenter.isOnLoading(false);
             }
         });
 
@@ -46,6 +59,13 @@ public class Model implements Contract.Model {
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "https://api.apixu.com/v1/current.json?key=c4662836cc5848bfa8784116190903&q=" + city;
         client.get(url, new TextHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                presenter.isOnLoading(true);
+            }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 presenter.failed();
@@ -55,8 +75,13 @@ public class Model implements Contract.Model {
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 parseMainData(responseString);
             }
-        });
 
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                presenter.isOnLoading(false);
+            }
+        });
 
     }
 

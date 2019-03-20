@@ -34,9 +34,15 @@ public class Presenter implements Contract.Presenter {
     }
 
 
-
     @Override
     public void failed() {
         view.failed();
     }
+
+    @Override
+    public void isOnLoading(boolean is) {
+        view.showLoading(is);
+    }
+
+
 }
