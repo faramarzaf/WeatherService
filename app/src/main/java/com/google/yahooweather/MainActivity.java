@@ -22,6 +22,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
+import es.dmoral.toasty.Toasty;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
                 showData(cityText.getText().toString());
                 showNewData(cityText.getText().toString());
+                swipeRefreshFun();
             }
         });
 
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             swipeRefresh.setRefreshing(true);
             new Handler().postDelayed(() -> {
                 swipeRefresh.setRefreshing(false);
-                Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+                Toasty.success(this, "Refreshed!", Toast.LENGTH_SHORT, true).show();
             }, 4400);
         });
 
@@ -80,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
             }, 0);
         });
     }
-
 
     private void showNewData(final String city) {
         String url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=a5f06f7985166354304befe85a386554";
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 swipeRefreshFun();
-
                 dialog.show();
                 parseNewData(responseString);
             }
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         client.get(url, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(MainActivity.this, "Data Not Found !", Toast.LENGTH_LONG).show();
+                Toasty.error(MainActivity.this, "Data Not Found", Toast.LENGTH_SHORT, true).show();
                 if (city.isEmpty()) {
                     cityText.setError("Field is empty...");
                 }
