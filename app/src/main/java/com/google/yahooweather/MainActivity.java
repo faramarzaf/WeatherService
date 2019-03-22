@@ -64,10 +64,13 @@ public class MainActivity extends AppCompatActivity {
         swipeRefresh.setColorSchemeColors(Color.RED, Color.BLUE, Color.rgb(255, 191, 0), Color.rgb(61, 182, 24));
         swipeRefresh.setOnRefreshListener(() -> {
             swipeRefresh.setRefreshing(true);
+            showData(cityText.getText().toString());
+            showNewData(cityText.getText().toString());
             new Handler().postDelayed(() -> {
                 swipeRefresh.setRefreshing(false);
+
                 Toasty.success(this, "Refreshed!", Toast.LENGTH_SHORT, true).show();
-            }, 4400);
+            }, 4300);
         });
 
     }
