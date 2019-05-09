@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_main"
         android:orientation="vertical"
-        android:padding="@dimen/_5sdp"
+        android:padding="@dimen/_7sdp"
         tools:context=".MainActivity">
 
         <LinearLayout
@@ -26,7 +26,7 @@
 
             <EditText
                 android:id="@+id/cityText"
-                android:layout_width="300dp"
+                android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/Transparent"
                 android:hint="@string/hint"

@@ -14,7 +14,21 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".MVP_Style.MvpActivity"></activity>
+
+
+        <activity android:name=".app_v2.DetailActivity">
+
+        </activity>
+
+
+        <activity android:name=".app_v2.Main2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,12 +36,6 @@
             </intent-filter>
         </activity>
 
-
-        <activity android:name=".MVP_Style.MvpActivity">
-
-
-
-        </activity>
 
 
 

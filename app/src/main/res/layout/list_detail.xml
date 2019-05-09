@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_95sdp"
+    android:background="@drawable/bg_list"
+    android:orientation="horizontal"
+    >
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_7sdp"
+        android:gravity="center"
+        android:orientation="vertical"
+
+        >
+
+        <ImageView
+            android:id="@+id/image_status"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_sunny"
+
+            />
+
+
+        <TextView
+            android:id="@+id/txt_tempF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center"
+            android:text="45 F"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold|italic"
+            />
+
+        <TextView
+            android:id="@+id/txt_tempC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="45 C"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold|italic"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/txt_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Iran"
+            android:textColor="#673AB7"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/txt_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Tehran"
+            android:textColor="#673AB7"
+            android:textSize="@dimen/_17sdp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Sunny"
+            android:textColor="#673AB7"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/_50sdp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:adjustViewBounds="true"
+            android:background="#00FFFFFF"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_close" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
