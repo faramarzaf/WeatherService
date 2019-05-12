@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".app_v2.Main2Activity"
     android:background="#fff"
-    >
+    android:orientation="vertical"
+    tools:context=".app_v2.Main2Activity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/_10sdp"
-        android:background="#fff"
-        >
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_10sdp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/cityText"
@@ -26,7 +25,7 @@
             android:inputType="text"
             android:singleLine="true"
             android:textColor="#000000"
-            android:textColorHint="#858585"
+            android:textColorHint="#B4B4B4"
             android:textSize="@dimen/_16sdp" />
 
         <ImageView
@@ -35,6 +34,8 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_gravity="center"
             android:src="@drawable/ic_search" />
+
+
     </LinearLayout>
 
     <ListView
@@ -42,12 +43,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/_5sdp"
-        android:dividerHeight="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_7sdp"
         android:divider="#fff"
+        android:dividerHeight="@dimen/_7sdp"
+
         >
 
     </ListView>
-
 
 </LinearLayout>
